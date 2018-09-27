@@ -28,10 +28,18 @@ router.post('/add-shop', function(req, res, next) {
   if (req.session.dataCardBike == undefined) {
     req.session.dataCardBike = [req.body];
     res.render('shop', {dataCardBike: req.session.dataCardBike});
-  } else {
+  }
+  else {
+    var index = req.body.position;
+    if(req.session.dataCardBike.some(function(el){
+      return el.name === req.body.name
+    })) {
+    res.render('shop', {dataCardBike: req.session.dataCardBike});}
+    else {
     req.session.dataCardBike.push(req.body);
     res.render('shop', {dataCardBike: req.session.dataCardBike});
   };
+};
 });
 
 
@@ -43,15 +51,15 @@ router.post('/add-shop', function(req, res, next) {
 
 //suppr d'un element du panier
 router.get('/delete-shop', function(req, res, next) {
-  dataCardBike.splice(req.query.position, 1)
-  res.render('shop', {dataCardBike});
+  req.session.dataCardBike.splice(req.query.position, 1)
+  res.render('shop', {dataCardBike: req.session.dataCardBike});
 });
 
 //modification d'un element du panier
 router.post('/update-shop', function(req, res, next) {
   console.log(req.body);
-  dataCardBike[req.body.position].quantity = req.body.quantity;
-  res.render('shop', {dataCardBike});
+  req.session.dataCardBike[req.body.position].quantity = req.body.quantity;
+  res.render('shop', {dataCardBike: req.session.dataCardBike});
 });
 
 module.exports = router;
