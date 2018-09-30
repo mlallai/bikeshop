@@ -16,6 +16,8 @@ app.use(
   saveUninitialized: false,
  })
 );
+var stripe = require("stripe")("sk_test_SKJjHmCezAVxrUF3wg5oUG7v");
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
